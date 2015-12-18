@@ -1,6 +1,6 @@
 # docker-mysql-dumper
 
-SQL dump script for multiple MySQL Docker containers.
+Dump script for (multiple) MySQL Docker container(s).
 
 ## Requirements
 
@@ -9,7 +9,7 @@ SQL dump script for multiple MySQL Docker containers.
 
 ## Usage
 
-To dump all MySQL databases from running MySQL containers to `/root/tmp/mysql` (as by `DUMP_PATH` default):
+To dump all MySQL databases from running containers to `/root/tmp/mysql` (as by `DUMP_PATH` default):
 
 ```
 ./sql-dumper.sh
