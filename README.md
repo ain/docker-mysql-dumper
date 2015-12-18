@@ -6,6 +6,7 @@ Dump script for (multiple) MySQL Docker container(s).
 
 - Use of [official MySQL Docker repository](https://hub.docker.com/_/mysql/) image
 - Running MySQL container(s)
+- Container naming convention that includes _mysql_ in the name of container (see `PATTERN` in script)
 
 ## Usage
 
