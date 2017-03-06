@@ -1,26 +1,28 @@
 #!/bin/bash
 # sql-dumper.sh dumps all defined databases from Docker containers.
 
-# PATTERN as part of Docker container name.
-# NB! regex patterns are not supported!
-PATTERN='mysql'
-DUMP_PATH='/root/tmp/mysql'
+count=0
 
-for id in `docker ps -q --filter "name=$PATTERN"`
-do
+dump() {
 
-  echo "Fetching MySQL environment from $id"
-  eval `docker inspect --format='{{.Config.Env}}' $id | tail -c +2 | head -c -2`
+  # PATTERN as part of Docker container name.
+  # NB! regex patterns are not supported!
+  local readonly PATTERN='db'
 
-  echo "Dumping $MYSQL_DATABASE from $id"
-  docker exec -t $id bash -c "/usr/local/mysql/bin/mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > /tmp/${MYSQL_DATABASE}.sql"
+  # File path inside container where to dump SQL, e.g. volume.
+  local readonly DUMP_FILE='/var/lib/mysql/dump.sql'
 
-  echo "Copying ${MYSQL_DATABASE}.sql from $id to host"
-  docker cp $id:/tmp/${MYSQL_DATABASE}.sql $DUMP_PATH
+  for id in `docker ps -q --filter "name=$PATTERN"`
+  do
+    echo "Processing container $id"
+    docker exec -it $id bash -c "mysqldump -u \$MYSQL_USER --password=\$MYSQL_PASSWORD \$MYSQL_DATABASE > $DUMP_FILE"
+    echo "  > processed."
+    let "count++"
+  done
+}
 
-  echo "Removing ${MYSQL_DATABASE}.sql from $id"
-  docker exec -t $id bash -c "rm /tmp/${MYSQL_DATABASE}.sql"
+dump
 
-done
+echo "Processed $count MySQL database containers."
 
 exit 0
