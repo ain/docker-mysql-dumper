@@ -1,21 +1,21 @@
 # docker-mysql-dumper
 
-Dump script for (multiple) MySQL Docker container(s).
+Dump script for MySQL Docker containers.
 
 ## Requirements
 
-- Use of [official MySQL Docker repository](https://hub.docker.com/_/mysql/) image
-- Running MySQL container(s)
-- Container naming convention that includes _mysql_ in the name of container (see `PATTERN` in script)
+- Running MySQL or MariaDB container(s)
 
 ## Usage
 
-To dump all MySQL databases from running containers to `/root/tmp/mysql` (as by `DUMP_PATH` default):
+In `sql-dumper.sh`:
 
-```
-./sql-dumper.sh
-```
+1. define `DUMP_FILE`, full dump file path inside database container. Defaults to `/var/lib/mysql/dump.sql`
+2. define `PATTERN`, conventional identifier for database container, e.g. `mysql` or `db` (default)
+3. Run
+
+        $ ./sql-dumper.sh
 
 ## Licence
 
-Copyright © 2015 Ain Tohvri. Licenced under [GPL-3](LICENSE).
+Copyright © 2015-2017 Ain Tohvri. Licenced under [GPL-3](LICENSE).
